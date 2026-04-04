@@ -7,14 +7,14 @@
 
 ---
 
-## 📖 1. TEAM ALPHA1
+## 🛠️ 1. TEAM ALPHA1
 The **AMD AI Premier League (AAIPL)** is a specialized competitive track hosted at the **IIT Delhi Yardi School of AI** during the AMD AI Reinforcement Learning Hackathon in February 2026. This implementation focuses on the development of a dual-agent ecosystem: a **Q-Agent** for adversarial question generation and an **A-Agent** for deductive reasoning, both specifically optimized for the **AMD Instinct™ MI300X** ecosystem.
 
 In this "Cricket-style" tournament, models compete in head-to-head innings where performance is measured by an agent's ability to stump opponents with complex puzzles while accurately decoding adversarial inputs under strict latency constraints.
 
 ---
 
-## 🏗 2. The Task: Dual-Agent Architecture
+## 🤖 2. The Task: Dual-Agent Architecture
 The core objective is to build and optimize two specialized agents designed to interact within an adversarial "Pitcher-Batter" loop:
 
 ### 2.1 The Question Agent (Q-Agent)
