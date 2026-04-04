@@ -1,5 +1,5 @@
-# 🏏 AMD AI Premier League (AAIPL) — High-Performance Agent Engineering
-### *Adversarial Reasoning & LLM Orchestration on AMD Instinct™ Hardware*
+# 🏏 AMD AI Premier League (AAIPL) — Adversarial Agent Orchestration
+### *High-Performance LLM Optimization & Reinforcement Learning on AMD Instinct™ MI300X*
 
 <p align="center">
   <img src="./assets/AMDAAIPL.png" alt="AMD AAIPL Banner" width="800">
@@ -7,39 +7,59 @@
 
 ---
 
-## 📋 The Mission
-This project involves building a dual-agent system designed for adversarial competition:
-* **Question Agent (Q-Agent):** Generates $N$ puzzle-based questions based on specified topics.
-    * **Logic:** `question_model.py`.
-    * **Output:** Must strictly follow the `sample_question.json` format.
-* **Answer Agent (A-Agent):** Solves questions posed by opposing Q-agents.
-    * **Logic:** `answer_model.py`.
-    * **Output:** Must strictly follow the `sample_answer.json` format.
+## 📖 1. Project Abstract
+The **AMD AI Premier League (AAIPL)** is a specialized competitive track hosted at the **IIT Delhi Yardi School of AI** during the AMD AI Reinforcement Learning Hackathon in February 2026. This implementation focuses on the development of a dual-agent ecosystem: a **Q-Agent** for adversarial question generation and an **A-Agent** for deductive reasoning, both specifically optimized for the **AMD Instinct™ MI300X** ecosystem.
+
+In this "Cricket-style" tournament, models compete in head-to-head innings where performance is measured by an agent's ability to stump opponents with complex puzzles while accurately decoding adversarial inputs under strict latency constraints.
 
 ---
 
-## 🔌 Workstation Operations
-* **Initiation:** Access the workstation at `dev.amd-ai-academy.com` using the provided Team ID and Password.
-* **Model Protocols:** Only models located in `/root/.cache/huggingface/hub` are authorized.
-    * These models are read-only; you must **copy** them into `AAIPL/hf_models` for editing.
-    * Attempting to modify the original source folder results in immediate disqualification.
-* **Code Management:** Push all code (excluding `hf_models`) to GitHub using the `git.sh` script.
+## 🏗 2. The Task: Dual-Agent Architecture
+The core objective is to build and optimize two specialized agents designed to interact within an adversarial "Pitcher-Batter" loop:
+
+### 2.1 The Question Agent (Q-Agent)
+* **Objective:** Generate $N$ puzzle-based questions based on provided topics such as Syllogisms, Seating Arrangements, Blood Relations, and Alphanumeric Series.
+* **Implementation:** Developed in `agents/question_model.py` and invoked by `agents/question_agent.py`.
+* **Format Requirement:** Must output questions strictly in the schema specified in `sample_question.json`.
+
+### 2.2 The Answer Agent (A-Agent)
+* **Objective:** Solve adversarial questions posed by the opponent's Q-Agent.
+* **Implementation:** Developed in `agents/answer_model.py` and invoked by `agents/answer_agent.py`.
+* **Format Requirement:** Must output answers strictly in the schema specified in `sample_answer.json`.
 
 ---
 
-## 🏟️ Tournament Dynamics
-The competition follows a **1v1 knockout** format structured like a cricket match where teams switch sides.
-
-* **Seeding Round:** An initial elimination stage tests A-agents against hidden questions to determine eligibility for the knockout phase.
-* **1st Inning:** Team-A (Q-Agent) pitches questions $\rightarrow$ Team-B (A-Agent) answers.
-* **2nd Inning:** Team-B (Q-Agent) pitches questions $\rightarrow$ Team-A (A-Agent) answers.
-* **Final Scoring:** The winner is determined by the total points from both pitching (Q-Agent) and batting (A-Agent) phases.
+## ⚙️ 3. Operational Instructions
+1.  **Workstation Access:** Sign in to **dev.amd-ai-academy.com** using the assigned Team ID and Password.
+2.  **Model Protocols:** Use only authorized models provided in `/root/.cache/huggingface/hub`.
+3.  **Modification Rule:** Hub models are read-only; they must be **copied** into the `AAIPL/hf_models` folder for editing. Modifying the original folder results in immediate disqualification.
+4.  **Synchronization:** Coordinate with team members to ensure simultaneous notebook edits do not overwrite work.
+5.  **Submission:** Push all code (excluding `hf_models`) to GitHub using the `git.sh` script before the deadline.
 
 ---
 
-## 📄 Data Protocols & Formats
+## 🏟️ 4. Tournament Overview & Scoring
+All matches are **1v1 knockout** format where two teams switch sides in a two-inning structure.
 
-### Q-Agent Generation (JSON)
+### 4.1 Innings Structure
+* **1st Inning:** Team-A (Q-Agent) pitches $N$ questions $\rightarrow$ Team-B (A-Agent) solves.
+* **2nd Inning:** Team-B (Q-Agent) pitches $N$ questions $\rightarrow$ Team-A (A-Agent) solves.
+
+### 4.2 Scoring Criteria
+Performance is measured by competitive accuracy using the following formulas:
+
+$$\text{A-agent Score} = \dfrac{\# \text{ questions correctly answered in expected format}}{N} \times 100$$
+
+$$\text{Q-agent Score} = \dfrac{\# \text{ questions incorrectly answered by opponent}}{N} \times 100$$
+
+> **Format Integrity Rule:** Teams must maintain a minimum **50% format-correctness rate** to avoid automatic disqualification. In case of a **TIE**, closed benchmark questions are used to evaluate A-Agents.
+
+---
+
+## 📋 5. Guidelines
+Only responses from the Q-Agent and A-Agent that strictly follow the JSON formats below will be considered for evaluation.
+
+### 5.1 Q-Agent Format (Output Schema)
 ```json
 {
     "topic": "<Topic of the Question>",
@@ -54,75 +74,68 @@ The competition follows a **1v1 knockout** format structured like a cricket matc
     "explanation": "brief explanation within 100 words"
 }
 ```
-*The Topic, Question, Choices, and Answer will be verified for absolute correctness.*
 
-### A-Agent Solving (JSON)
+### 5.2 A-Agent Format (Output Schema)
 ```json
 {
     "answer": "<correct choice letter only>",
     "reasoning": "brief reasoning within 100 words"
 }
 ```
-*The Answer key is directly compared against the opponent's Q-agent answer for scoring.*
 
 ---
 
-## 🚫 Engagement Rules & Restrictions
-* **No RAG:** Retrieval Augmented Generation techniques are strictly forbidden.
-* **Zero Adversarial Poisoning:** Approaches designed to make A-agents hallucinate lead to disqualification.
-* **Language & Model Integrity:** Only English is permitted, and only provided models may be used.
-* **SLA Constraints:**
-    * **Q-Generation:** Must be under **13 seconds** per question.
-    * **A-Inference:** Must be under **9 seconds** per answer.
-* **Token Limits:** Adhere strictly to the `max_tokens` settings in `agen.yaml` and `qgen.yaml`.
+## 🛠️ 6. Submission & Persistence
+* **Workspace:** All work must be contained within the `AAIPL` folder.
+* **Execution:** Agents are invoked via `python -m agents.question_agent` and `python -m agents.answer_agent`.
+* **Persistence:** Inference results must be saved specifically to `outputs/questions.json` and `outputs/answers.json`.
+* **Checkpoints:** Ensure model checkpoints (e.g., `.safetensors`, `.pt`) load correctly during automated evaluation.
 
 ---
 
-## 🗃️ Directory Architecture
+## ⚠️ 7. Strict Restrictions
+Failure to comply results in immediate disqualification:
+* **No RAG:** Retrieval Augmented Generation is strictly prohibited.
+* **Adversarial Integrity:** Strategies designed to force opponent "hallucinations" are disallowed.
+* **Language:** Strictly English only for both agents.
+* **Latency SLAs:** * **Question Generation:** Under **13 seconds** per question.
+    * **Answer Generation:** Under **9 seconds** per answer.
+
+---
+
+## 📂 8. Directory Overview
 ```plaintext
 .
-├── agents
+├── agents/
 │   ├── question_model.py      # Core Q-agent logic
-│   ├── question_agent.py     # Inference wrapper for Q
+│   ├── question_agent.py      # Inference driver for Q
 │   ├── answer_model.py        # Core A-agent logic
-│   └── answer_agent.py       # Inference wrapper for A
-├── assets
-│   ├── topics.json           # Target domains for generation
+│   └── answer_agent.py        # Inference driver for A
+├── assets/
+│   ├── topics.json            # Target topics for generation
 │   ├── sample_question.json   # Q-format specification
 │   └── sample_answer.json     # A-format specification
-├── utils
-│   └── build_prompt.py       # Prompt-tuning scripts
 ├── qgen.yaml / agen.yaml      # Generation parameters
-└── tutorial.ipynb            # Unsloth & Synthetic Data Guide
+└── README.md                  # Project Dashboard
 ```
 
 ---
 
-## 🥇 Scoring & Evaluation
+## 🚀 9. Getting Started
+To verify your system on the AMD Instinct™ MI300X workstation:
 
-Performance is measured by competitive accuracy:
-
-$$\text{A-agent Score} = \dfrac{\# \text{ questions correctly answered}}{N} \times 100$$
-$$\text{Q-agent Score} = \dfrac{\# \text{ questions incorrectly answered by opponent}}{N} \times 100$$
-
-> **Disqualification Warning:** Q-agents must maintain a minimum **50% format-correctness rate** to remain in the tournament. Tie-breakers are resolved using closed benchmark question sets.
-
----
-
-## 🕹️ Getting Started
-To verify your system locally before submission:
-
-**Question Generation:**
+### Generate Questions
 ```bash
 python -m agents.question_agent --output_file "outputs/questions.json" --num_questions 20 --verbose
 ```
 
-**Answer Deduction:**
+### Evaluate Answers
 ```bash
 python -m agents.answer_agent --input_file "outputs/filtered_questions.json" --output_file "outputs/answers.json" --verbose
 ```
 
 ---
-<p align="center">
-  <i>"Hardware-optimized adversarial reasoning at the edge of innovation."</i>
-</p>
+
+## 🔬 Acknowledgments
+Developed for the **AMD AI Reinforcement Learning Hackathon (Feb 2026)** at **IIT Delhi**. Special thanks to the **AMD Engineering Team** for MI300X compute access and **Unsloth** for performance optimization support.
+```
