@@ -48,9 +48,9 @@ All matches are **1v1 knockout** format where two teams switch sides in a two-in
 ### 4.2 Scoring Criteria
 Performance is measured by competitive accuracy using the following formulas:
 
-$$\text{A-agent Score} = \dfrac{\# \text{ questions correctly answered in expected format}}{N} \times 100$$
+$$\text{A-agent Score} = \dfrac{\text{Count of questions correctly answered in expected format}}{N} \times 100$$
 
-$$\text{Q-agent Score} = \dfrac{\# \text{ questions incorrectly answered by opponent}}{N} \times 100$$
+$$\text{Q-agent Score} = \dfrac{\text{Count of questions incorrectly answered by opponent}}{N} \times 100$$
 
 > **Format Integrity Rule:** Teams must maintain a minimum **50% format-correctness rate** to avoid automatic disqualification. In case of a **TIE**, closed benchmark questions are used to evaluate A-Agents.
 
